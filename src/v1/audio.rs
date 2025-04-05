@@ -112,6 +112,10 @@ pub struct AudioSpeechRequest {
     pub input: String,
     pub voice: String,
     pub output: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub instructions: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub speed: Option<f32>,
 }
 
 impl AudioSpeechRequest {
@@ -121,11 +125,17 @@ impl AudioSpeechRequest {
             input,
             voice,
             output,
+            instructions: None,
+            speed: None,
         }
     }
 }
 
-impl_builder_methods!(AudioSpeechRequest,);
+impl_builder_methods!(
+    AudioSpeechRequest,
+    instructions: String,
+    speed: f32
+);
 
 #[derive(Debug)]
 pub struct AudioSpeechResponse {
